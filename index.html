@@ -1,0 +1,77 @@
+<html>
+<head>
+<title>NodeJS Messenger</title>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="https://cdn.socket.io/socket.io-1.3.4.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		nickname = prompt('What is your nickname?');
+		var messageText = $('#textInput').val();
+		var server = io.connect('http://localhost:8080');
+			server.on('messages',function(data){
+				server.emit('join',nickname);
+				$("#messageLog").append($('<p style="color:black;padding-left:10px;"> ' + data +'</p>').fadeIn('normal'));
+				$('#messageLog').animate({
+		             scrollTop: $('#messageLog').get(0).scrollHeight}, 2000);
+					});
+
+		$('#submitBt').on("click",function(){
+		var messageText = $('#textInput').val();
+		server.emit('join', nickname);
+		server.emit('messages', messageText);
+		$("#messageLog").append($('<p style="color:black;padding-left:10px;"> ' + nickname + ": " + messageText +'</p>').fadeIn('normal'));
+		$('#messageLog').animate({
+             scrollTop: $('#messageLog').get(0).scrollHeight}, 2000);
+		$('#textInput').val("");
+	    });
+		$('#textInput').focus();
+	});
+</script>
+<style type="text/css">
+#messageLog{
+	overflow-y: scroll;
+	width: 400px;
+	height: 200px;
+	background-color: #e3e3e3;
+	box-shadow:0 0 5px #fff;
+}
+body{
+	color : white;
+	background-color: black;
+	padding: 40px;
+}
+#container{
+	width: 400px;
+	max-width: 410px;
+}
+#textInput{
+	background-color: #e3e3e3;
+}
+#textInput:focus{
+	border : 3px solid red;
+}
+
+#submitBt:hover{
+	box-shadow: 0 0 5px #fff;
+}
+</style>
+
+</head>
+<body>
+<script type="text/javascript">
+	
+</script>
+<h1>NodeJS Messenger</h1>
+<h2>Message Log</h2>
+<div id="container">
+<div id="messageLog">
+	
+</div>
+	<form>
+		<input type="text" id="textInput" placeholder="Enter Message" style="width:100%;height:10%;min-height : 50px;" required/>
+		<br>
+		<input type="button" value="Send" id="submitBt" style="width:100%;height:8%;min-height : 40px;">
+	</form>
+</div>
+</body>
+</html>
