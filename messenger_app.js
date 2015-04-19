@@ -5,10 +5,25 @@ var app = express();
 var server = http.createServer(app);
 var io = socket.listen(server);
 var nickname = "";
+var typing_user = "";
 
 io.sockets.on('connection',function(client){
 	console.log("Client connected...");
 	client.emit('messages', 'Welcome to NodeJS Messenger');
+
+	client.on('typing',function(name){
+		client.typing_user = name;
+		typing_user = name;
+		client.broadcast.emit("messages", typing_user + " is typing");
+	});
+
+	/*
+	client.on('nottyping',function(name){
+		client.typing_user = name;
+		typing_user = name;
+		client.broadcast.emit("messages", typing_user + " stopped typing");
+	});
+	*/
 
 	client.on('join',function(name){
 		client.username = name;

@@ -8,6 +8,7 @@
 		nickname = prompt('What is your nickname?');
 		var messageText = $('#textInput').val();
 		var server = io.connect('http://localhost:8080');
+
 			server.on('messages',function(data){
 				server.emit('join',nickname);
 				$("#messageLog").append($('<p style="color:black;padding-left:10px;"> ' + data +'</p>').fadeIn('normal'));
@@ -15,16 +16,39 @@
 		             scrollTop: $('#messageLog').get(0).scrollHeight}, 2000);
 					});
 
+			server.on('typingStatus',function(data){
+				$("#messageLog").append($('<p style="color:black;padding-left:10px;"> ' + data +'</p>').fadeIn('normal'));
+				$('#messageLog').animate({
+		             scrollTop: $('#messageLog').get(0).scrollHeight}, 2000);
+					});
+			
+
 		$('#submitBt').on("click",function(){
+
 		var messageText = $('#textInput').val();
+
 		server.emit('join', nickname);
+
 		server.emit('messages', messageText);
+
 		$("#messageLog").append($('<p style="color:black;padding-left:10px;"> ' + nickname + ": " + messageText +'</p>').fadeIn('normal'));
+
 		$('#messageLog').animate({
              scrollTop: $('#messageLog').get(0).scrollHeight}, 2000);
-		$('#textInput').val("");
+		     $('#textInput').val("");
 	    });
+
 		$('#textInput').focus();
+
+		$("#textInput").focus(function(){
+        	$("#type_status").text("Typing");
+        	server.emit('typing', nickname);
+        });
+
+	    $("#textInput").blur(function(){
+	        $("#type_status").text("Not Typing");
+	        //server.emit('nottyping', nickname);
+	    });
 	});
 </script>
 <style type="text/css">
@@ -54,6 +78,9 @@ body{
 #submitBt:hover{
 	box-shadow: 0 0 5px #fff;
 }
+#type_status{
+	color : #fff;
+}
 </style>
 
 </head>
@@ -73,5 +100,7 @@ body{
 		<input type="button" value="Send" id="submitBt" style="width:100%;height:8%;min-height : 40px;">
 	</form>
 </div>
+
+<p id="type_status">Not Typing</p>
 </body>
 </html>
