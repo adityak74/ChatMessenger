@@ -35,5 +35,4 @@ io.sockets.on('connection',function(client){
 		client.broadcast.emit("messages" , nickname + ": " + data);
 	});
 });
-
 server.listen(8080);

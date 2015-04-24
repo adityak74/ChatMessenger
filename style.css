@@ -1,0 +1,46 @@
+#messageLog{
+	overflow-y: scroll;
+	width: 400px;
+	height: 300px;
+	background-color: #e3e3e3;
+	box-shadow:0 0 5px #fff;
+}
+#main{
+	
+	background-color: #3A5795;
+	padding: 40px;
+}
+#container{
+	width: 400px;
+	max-width: 410px;
+}
+#textInput{
+	background-color: #e3e3e3;
+}
+#textInput:focus{
+	border : 1px solid red;
+}
+
+#submitBt:hover{
+	box-shadow: 0 0 5px #fff;
+}
+#type_status{
+	color : #fff;
+}
+#heading{
+	color: #fff;
+}
+#online_friends{
+	
+}
+#friend_container{
+	background-color: #E5E5E5;
+	border-color: #D5D6D9;
+	overflow-y: hidden;
+	width: 100%;
+	height: 400px;
+	box-shadow:0 0 5px #fff;
+}
+#friend_container{
+	overflow-y : scroll;
+}
